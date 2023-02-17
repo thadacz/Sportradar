@@ -28,16 +28,10 @@ public class EventService {
     public List<Event> mostProbable(int n) {
 
         List<Event> mostProbableEvents = eventRepository.findAll();
-        List<EventProbability> probabilities = new ArrayList<>();
+        List<EventProbability> probabilities = mostProbableEvents
+                .stream()
+                .map(e -> new EventProbability(e,Math.max(Math.max(e.getProbability_away_team_winner(), e.getProbability_home_team_winner()), e.getProbability_draw()))).collect(Collectors.toList());
 
-        for (Event e : mostProbableEvents) {
-            List<Double> theHighestValue = new ArrayList<>();
-            theHighestValue.add(e.getProbability_away_team_winner());
-            theHighestValue.add(e.getProbability_home_team_winner());
-            theHighestValue.add(e.getProbability_draw());
-            double x = Collections.max(theHighestValue);
-            probabilities.add(new EventProbability(e, x));
-        }
         if (n < mostProbableEvents.size()) {
             probabilities = probabilities
                     .stream()
@@ -91,7 +85,7 @@ public class EventService {
     public List<String> getCompetitors() {
         List<Event> events = eventRepository.findAll();
         List<String> names = new ArrayList<>();
-        for (Event event : events ) {
+        for (Event event : events) {
             names.add(event.getCompetition_name());
         }
         Collections.sort(names);
