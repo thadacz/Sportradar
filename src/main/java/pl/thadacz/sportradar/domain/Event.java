@@ -34,7 +34,7 @@ public class Event {
     private double probability_away_team_winner;
 
 
-    public String getSport_event_id() {
+  public String getSport_event_id() {
         return sport_event_id;
     }
 
@@ -64,6 +64,9 @@ public class Event {
 
     public Venue getVenue() {
         return venue;
+    }
+    public void setVenue(Venue venue){
+        this.venue = venue;
     }
 
     public double getProbability_home_team_winner() {
